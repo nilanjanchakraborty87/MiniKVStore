@@ -7,7 +7,7 @@ In the heart of this distributed data store lies the Gossip protocol.
 
 A gossip protocol is a procedure or process of computer–computer communication that is based on the way social networks disseminate information or how epidemics spread. It is a communication protocol. Modern distributed systems often use gossip protocols to solve problems that might be difficult to solve in other ways, either because the underlying network has an inconvenient structure, is extremely large, or because gossip solutions are the most efficient ones available.
 
-I have used Akka Distributed Data to implement this data store. Which uses Gossip protocol internally to disseminate the data.
+I have used Akka Distributed Data to implement this data store, which uses Gossip protocol internally to disseminate the data.
 
 Akka Distributed Data is useful when you need to share data between nodes in an Akka Cluster. The data is accessed with an actor providing a key-value store like API. The keys are unique identifiers with type information of the data values. The values are Conflict Free Replicated Data Types (CRDTs).
 All data entries are spread to all nodes, or nodes with a certain role, in the cluster via direct replication and gossip based dissemination. You have fine grained control of the consistency level for reads and writes.
