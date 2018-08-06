@@ -23,6 +23,8 @@ public class CacheController {
 	private ActorSystem actorSystem;
 	private ActorRef replicationActorRef;
 	private static final String DEFAULT_PORT = "0";
+	private static final String RESPONSE_OK = "OK";
+	private static final String RESPONSE_NOT_FOUND = "Not Found";
 	
 	private CacheController(String[] args) {
 		final String port = args.length > 1 ? args[0] : DEFAULT_PORT;
@@ -53,7 +55,7 @@ public class CacheController {
 		String key = sparkRequest.params(":key");
 		final String value = sparkRequest.body();
 		replicationActorRef.tell(new PutIn(key, value), replicationActorRef);
-		return "OK";
+		return RESPONSE_OK;
 		
 	}
 	
@@ -68,7 +70,7 @@ public class CacheController {
 		String key = sparkRequest.params(":key");
 		Future<Object> f = Patterns.ask(replicationActorRef,new GetFrom(key),1000L);
 		Cached response = (Cached)Await.result(f, Duration.create(1, "second"));
-		return response.value.isPresent() ? response.value.get().toString() : "";
+		return response.value.isPresent() ? response.value.get().toString() : RESPONSE_NOT_FOUND;
 	}
 
 
