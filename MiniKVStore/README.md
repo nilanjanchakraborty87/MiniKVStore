@@ -31,6 +31,12 @@ In order to run the application do the following: <br/>
 ./run.sh 4457
 ```
 
+In windows you can run the service using below command -
+
+```
+mvn compile exec:java -Dexec.args="5551 4455"
+```
+
 Following are sample request for SET and GET 
 
 ```
