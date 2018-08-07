@@ -6,6 +6,7 @@ import akka.pattern.Patterns;
 import io.github.nc.minikvstore.DistributedCache.Cached;
 import io.github.nc.minikvstore.DistributedCache.GetFrom;
 import io.github.nc.minikvstore.DistributedCache.PutIn;
+import io.github.nc.minikvstore.DistributedCache.Evict;
 import scala.concurrent.Await;
 import scala.concurrent.Future;
 import scala.concurrent.duration.Duration;
@@ -71,6 +72,21 @@ public class CacheController {
 		Future<Object> f = Patterns.ask(replicationActorRef,new GetFrom(key),1000L);
 		Cached response = (Cached)Await.result(f, Duration.create(1, "second"));
 		return response.value.isPresent() ? response.value.get().toString() : RESPONSE_NOT_FOUND;
+	}
+	
+	
+	/**
+	 * deletes the data from the store
+	 * 
+	 * @param sparkRequest
+	 * @param sparkResponse
+	 * @return
+	 */
+	public String delete(Request sparkRequest, Response sparkResponse) {
+		String key = sparkRequest.params(":key");
+		final String value = sparkRequest.body();
+		replicationActorRef.tell(new Evict(key), replicationActorRef);
+		return RESPONSE_OK;
 	}
 
 
